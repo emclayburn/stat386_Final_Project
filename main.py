@@ -296,5 +296,3 @@ else:
     ax4.grid(True)
 
     st.pyplot(fig4)
-
-st.write("DEBUG LOGO URL:", logo_url)
