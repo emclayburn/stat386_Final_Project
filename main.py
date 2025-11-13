@@ -8,18 +8,58 @@ st.set_page_config(page_title="NHL Team Statistics Since 2016", layout="wide")
 # ---------------------- FUNCTIONS ----------------------
 
 def get_team_logo_url(team_abbrev):
-    """Pulls NHL team logo from a stable GitHub repo using team abbreviation."""
-    abbrev = team_abbrev.upper()
-    return f"https://raw.githubusercontent.com/dword4/nhldata/master/logos/{abbrev}.png"
+    """
+    Get NHL team logo from the official NHL assets CDN.
+    Uses pattern: https://assets.nhle.com/logos/nhl/svg/[TEAM]_light.svg
+    """
+    clean = team_abbrev.replace(".", "").upper()
+    return f"https://assets.nhle.com/logos/nhl/svg/{clean}_light.svg"
+
+
+
+def clean_team_abbrev(abbrev):
+    mapping = {
+        "T.B.": "TBL",
+        "TB": "TBL",
+        "TAM": "TBL",
+
+        "S.J.": "SJS",
+        "SJ": "SJS",
+        "SAN": "SJS",
+
+        "N.J.": "NJD",
+        "NJ": "NJD",
+        "NJ DEVILS": "NJD",
+
+        "L.A.": "LAK",
+        "LA": "LAK",
+        "LOS": "LAK",
+
+        "M.T.L.": "MTL",
+        "MTL.": "MTL",
+
+        "N.Y.I.": "NYI",
+        "N.Y.R.": "NYR",
+
+        "W.P.G.": "WPG",
+        "V.G.K.": "VGK",
+    }
+    abbrev = abbrev.strip()
+    return mapping.get(abbrev, abbrev.replace(".", "").upper())
+
+
 
 
 # ---------------------- LOAD + PROCESS DATA ----------------------
 @st.cache_data
 def load_and_process_data(path):
     df = pd.read_csv(path)
+    df["playerTeam"] = df["playerTeam"].apply(clean_team_abbrev)
+    df["opposingTeam"] = df["opposingTeam"].apply(clean_team_abbrev)
+
 
     # Team-level 5v5 only
-    df = df[(df["position"] == "Team Level") & (df["situation"] == "5on5")].copy()
+    df = df[(df["position"] == "Team Level") & (df["situation"] == "all")].copy()
 
     # Dates
     df["gameDate"] = pd.to_datetime(df["gameDate"], format="%Y%m%d")
@@ -50,6 +90,7 @@ DATA_PATH = "all_teams.csv"
 df = load_and_process_data(DATA_PATH)
 
 # ---------------------- SIDEBAR FILTERS ----------------------
+
 
 st.sidebar.header("Filters")
 
@@ -255,3 +296,5 @@ else:
     ax4.grid(True)
 
     st.pyplot(fig4)
+
+st.write("DEBUG LOGO URL:", logo_url)
