@@ -183,16 +183,44 @@ else:
         ylabel = "Expected Goals (Smoothed)"
 
     elif metric_mode == "Expected Goals Percentage (xG%)":
+
+    # ----- MAIN AXIS (xG%) -----
         y = team_df["xG%_roll"] if rolling_window > 1 else team_df["xG%"]
-        ax.plot(x, y, label="xG%", linewidth=2.5)
+        ax.plot(x, y, label="xG%", linewidth=2.5, color="#1f77b4")
         ylabel = "xG%"
+
+    # Add season average line
         avg_xg_pct = y.mean()
-        ax.axhline(avg_xg_pct, color="blue", linestyle="--", linewidth=1.5, alpha=0.7)
+        ax.axhline(avg_xg_pct, color="#1f77b4", linestyle="--", linewidth=1.5, alpha=0.6)
         ax.text(
             x.iloc[-1] + 0.3, avg_xg_pct, 
             f"Avg {avg_xg_pct:.1f}%", 
-            color="blue", fontsize=11, va="center"
+            color="#1f77b4", fontsize=11, va="center"
+     )
+
+    # ----- SECONDARY AXIS (Goals) -----
+        ax2 = ax.twinx()
+
+        goals = team_df["goalsFor"]
+        colors = ["green" if w else "red" for w in team_df["win"]]
+
+        ax2.scatter(
+            x, goals,
+            color=colors, s=40, alpha=0.9, edgecolor="black",
+            label="Goals"
         )
+
+        ax2.set_ylabel("Goals For", fontsize=12)
+        ax2.set_ylim(0, max(goals) + 1)
+
+    # Add value labels ABOVE each goal marker
+        for game_num, g, c in zip(x, goals, colors):
+            ax2.text(
+                game_num, g + 0.2,
+                str(g), fontsize=9,
+                ha="center", va="bottom", color=c
+            )
+
 
     else:  # Actual vs Expected
         y1 = team_df["GF_roll"] if rolling_window > 1 else team_df["goalsFor"]
