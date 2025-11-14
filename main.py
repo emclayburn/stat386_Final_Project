@@ -185,11 +185,6 @@ else:
     # Update y-label
         ylabel = "Expected Goals (Smoothed)"
 
-    # Style: softer B2B shading
-        for gnum in b2b_game2:
-            ax.axvspan(gnum - 0.5, gnum + 0.5, color="#e8e8e8", alpha=0.65)
-
-
     elif metric_mode == "Expected Goals Percentage (xG%)":
         y = team_df["xG%_roll"] if rolling_window > 1 else team_df["xG%"]
         ax.plot(x, y, label="xG%", linewidth=2.5)
