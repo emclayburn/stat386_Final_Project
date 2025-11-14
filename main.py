@@ -165,7 +165,7 @@ else:
 
     x = team_df["Game Number"]
 
-    # Main metric plotting
+# ---------------------- MAIN METRIC PLOTTING ----------------------
     if metric_mode == "Raw xGF/xGA":
         y1 = team_df["xGF_roll"] if rolling_window > 1 else team_df["xGF"]
         y2 = team_df["xGA_roll"] if rolling_window > 1 else team_df["xGA"]
@@ -187,12 +187,12 @@ else:
         ax.plot(x, y3, label="xGF", linewidth=2.0, linestyle="--")
         ylabel = "Goals"
 
-    # Highlight 2nd game of back-to-back (yellow bar)
+# ---------------------- HIGHLIGHT 2ND BACK TO BACK GAME----------------------
     b2b_game2 = team_df[team_df["days_rest"] == 1]["Game Number"].tolist()
     for gnum in b2b_game2:
         ax.axvspan(gnum - 0.5, gnum + 0.5, color="yellow", alpha=0.5)
 
-    # Win/loss markers
+# ---------------------- WIN/LOSS MARKERS ----------------------
     for idx, row in team_df.iterrows():
         color = "green" if row["win"] else "red"
         y_val = (
@@ -204,7 +204,7 @@ else:
             color=color, s=50, alpha=0.8, edgecolor="black"
         )
 
-    # Style improvements
+# ---------------------- STYLE IMPROVEMENTS ----------------------
     ax.set_xlabel("Game Number", fontsize=13)
     ax.set_ylabel(ylabel, fontsize=13)
     ax.grid(True, alpha=0.3)
@@ -226,7 +226,6 @@ if not b2b.empty and not nonb2b.empty:
     nb2b_stats = nonb2b[["xGF", "xGA", "goalsFor", "goalsAgainst"]].mean().rename("Non-B2B")
     summary = pd.concat([nb2b_stats, b2b_stats], axis=1).T
     st.dataframe(summary)
-    st.bar_chart(summary)
 else:
     st.warning("No back-to-back games available in this filtered dataset.")
 
