@@ -167,13 +167,6 @@ else:
 
 # ---------------------- MAIN METRIC PLOTTING ----------------------
     if metric_mode == "Raw xGF/xGA":
-        y1 = team_df["xGF_roll"] if rolling_window > 1 else team_df["xGF"]
-        y2 = team_df["xGA_roll"] if rolling_window > 1 else team_df["xGA"]
-        ax.plot(x, y1, label="xGF", linewidth=2.5)
-        ax.plot(x, y2, label="xGA", linewidth=2.5)
-        ylabel = "Expected Goals"
-
-    elif metric_mode == "Raw xGF/xGA":
 
     # Force smoothing of at least 3 games for visual clarity
         smoothing = max(rolling_window, 3)
@@ -191,10 +184,23 @@ else:
 
     # Update y-label
         ylabel = "Expected Goals (Smoothed)"
+
     # Style: softer B2B shading
         for gnum in b2b_game2:
             ax.axvspan(gnum - 0.5, gnum + 0.5, color="#e8e8e8", alpha=0.65)
 
+
+    elif metric_mode == "Expected Goals Percentage (xG%)":
+        y = team_df["xG%_roll"] if rolling_window > 1 else team_df["xG%"]
+        ax.plot(x, y, label="xG%", linewidth=2.5)
+        ylabel = "xG%"
+        avg_xg_pct = y.mean()
+        ax.axhline(avg_xg_pct, color="blue", linestyle="--", linewidth=1.5, alpha=0.7)
+        ax.text(
+            x.iloc[-1] + 0.3, avg_xg_pct, 
+            f"Avg {avg_xg_pct:.1f}%", 
+            color="blue", fontsize=11, va="center"
+        )
 
     else:  # Actual vs Expected
         y1 = team_df["GF_roll"] if rolling_window > 1 else team_df["goalsFor"]
@@ -207,6 +213,8 @@ else:
 
 # ---------------------- HIGHLIGHT 2ND BACK TO BACK GAME----------------------
     b2b_game2 = team_df[team_df["days_rest"] == 1]["Game Number"].tolist()
+    for gnum in b2b_game2:
+        ax.axvspan(gnum - 0.5, gnum + 0.5, color="#e8e8e8", alpha=0.6)
 
 # ---------------------- WIN/LOSS MARKERS ----------------------
     for idx, row in team_df.iterrows():
