@@ -387,3 +387,5 @@ ax_combined.grid(True, alpha=0.3)
 ax_combined.legend(title="Metric")
 
 st.pyplot(fig_combined)
+
+st.markdown("""The data for this dashboard was sourced from MoneyPuck.com and we thank them for their contributions and ability to collect data.""")
