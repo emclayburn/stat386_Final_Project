@@ -190,7 +190,7 @@ else:
     # Highlight 2nd game of back-to-back (yellow bar)
     b2b_game2 = team_df[team_df["days_rest"] == 1]["Game Number"].tolist()
     for gnum in b2b_game2:
-        ax.axvspan(gnum - 0.5, gnum + 0.5, color="yellow", alpha=0.2)
+        ax.axvspan(gnum - 0.5, gnum + 0.5, color="yellow", alpha=0.5)
 
     # Win/loss markers
     for idx, row in team_df.iterrows():
