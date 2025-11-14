@@ -140,13 +140,18 @@ if rolling_window > 1:
 
 # ---------------------- HEADER (WITH LOGO) ----------------------
 
-logo_url = get_team_logo_url(selected_team)
+if mode == "Team":
+    logo_url = get_team_logo_url(selected_team)
 
-col1, col2 = st.columns([1, 10])
-with col1:
-    st.image(logo_url, width=80)
-with col2:
-    st.header(f"{selected_team} — {metric_mode}")
+    col1, col2 = st.columns([1, 10])
+    with col1:
+        st.image(logo_url, width=80)
+    with col2:
+        st.header(f"{selected_team} — {metric_mode}")
+
+else:
+    st.header("League-wide Back-to-Back Summary")
+
 
 # ---------------------- DATA PREVIEW ----------------------
 st.subheader("Data Preview")
