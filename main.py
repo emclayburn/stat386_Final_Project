@@ -177,6 +177,13 @@ else:
         y = team_df["xG%_roll"] if rolling_window > 1 else team_df["xG%"]
         ax.plot(x, y, label="xG%", linewidth=2.5)
         ylabel = "xG%"
+        avg_xg_pct = y.mean()
+        ax.axhline(avg_xg_pct, color="blue", linestyle="--", linewidth=1.5, alpha=0.7)
+        ax.text(
+            x.iloc[-1] + 0.3, avg_xg_pct, 
+            f"Avg {avg_xg_pct:.1f}%", 
+            color="blue", fontsize=11, va="center"
+        )
 
     else:  # Actual vs Expected
         y1 = team_df["GF_roll"] if rolling_window > 1 else team_df["goalsFor"]
@@ -195,6 +202,8 @@ else:
 # ---------------------- WIN/LOSS MARKERS ----------------------
     for idx, row in team_df.iterrows():
         color = "green" if row["win"] else "red"
+        game_num = row["Game Number"]
+
         y_val = (
             row["GF_roll"] if (metric_mode == "Actual vs Expected" and rolling_window > 1)
             else row["goalsFor"]
@@ -203,6 +212,16 @@ else:
             row["Game Number"], y_val,
             color=color, s=50, alpha=0.8, edgecolor="black"
         )
+        # ---------------------- ADD GOALS SCORED LABEL ----------------------
+        
+        if metric_mode == "Expected Goals Percentage (xG%)":
+            # label actual goals on the xG% chart
+            ax.text(
+                game_num, y_val + 0.3,
+                str(row["goalsFor"]),
+                fontsize=9, ha="center", va="bottom"
+            )
+
 
 # ---------------------- STYLE IMPROVEMENTS ----------------------
     ax.set_xlabel("Game Number", fontsize=13)
