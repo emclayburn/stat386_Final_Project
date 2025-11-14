@@ -179,9 +179,6 @@ else:
         ax.plot(x, y1, label="xGF", linewidth=2.2, color="#1f77b4")
         ax.plot(x, y2, label="xGA", linewidth=2.2, color="#ff7f0e")
 
-    # Add xGF - xGA difference line (dashed)
-        ax.plot(x, diff, label="xGF - xGA", linewidth=1.6, linestyle="--", color="#2ca02c")
-
     # Update y-label
         ylabel = "Expected Goals (Smoothed)"
 
