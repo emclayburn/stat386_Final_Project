@@ -195,6 +195,10 @@ This is done within each team’s time series so that only games from the same t
     Early attempts misclassified many games as “0 rest” due to date parsing issues. Once the date logic
     was fixed, the rest buckets aligned correctly with the actual schedule.
   </li>
+    <li>
+    <strong>Goalie Profile Pictures</strong><br>
+    We attempted to have real photos upload to each goalie's profile, however the webscrapping didn't allow us to pull profile pictures. 
+  </li>
 </ol>
 
 <p>
@@ -303,79 +307,25 @@ Each page targets a different part of the story.
 
 <h2>4.1 Team Analysis Page</h2>
 
-<p>The Team Analysis page focuses on single‑team performance over a season. It includes:</p>
+<p>The Team Analysis page focuses on single‑team performance over a season. This page allows users to visually track how a team’s performance evolves over time and how it responds
+to schedule patterns and opponents.</p>
 
-<ul>
-  <li>Rolling xG%</li>
-  <li>Rolling goals for and goals against</li>
-  <li>Optional home vs away split</li>
-  <li>Metric selectors (e.g., xG%, actual vs expected goals)</li>
-  <li>Team logo and season filters</li>
-</ul>
+<h2>4.2 Goalie Analysis Page</h2>
 
-<p>
-This page allows users to visually track how a team’s performance evolves over time and how it responds
-to schedule patterns and opponents.
-</p>
-
-<h2>4.2 League‑Wide Rest Analysis Page</h2>
-
-<p>This page shows rest effects at the league level. It typically includes:</p>
-
-<ul>
-  <li>A bar chart of average xG% by rest bucket (0, 1, 2, 3+ days)</li>
-  <li>League‑wide trends that summarize how rest affects performance</li>
-  <li>A table showing fatigue sensitivity rankings for all teams</li>
-</ul>
-
-<p>
-Users can quickly see whether rest differences are modest or pronounced and which teams are outliers.
-</p>
+<p>This page is an in-depth analysis of the stats of each goalie. It has the option between looking at one or comparing two separate goalies.</p>
 
 <h2>4.3 Goalie Comparison Tool</h2>
 
-<p>The Goalie Comparison page allows users to select two goalies and compare:</p>
+<p>The Goalie Comparison page allows users to select two goalies and compare skills. The page also is supposed to pull up headshot images using player IDs and offer an option to export a PDF comparison report.</p>
 
-<ul>
-  <li>Save percentage</li>
-  <li>Goals saved above expected (GSAx) or a similar xG‑based metric</li>
-  <li>Danger‑zone performance (e.g., high‑danger save percentage)</li>
-  <li>Rebound rates</li>
-</ul>
-
-<p>
-The page also pulls headshot images using player IDs and offers an option to export a PDF comparison report.
-This gives a polished, shareable summary of goalie performance.
-</p>
-
-<h2>4.4 Back‑to‑Back Game Visualization</h2>
-
-<p>This page isolates back‑to‑back sequences and compares Game 1 vs Game 2 results. For a selected team, users can view:</p>
-
-<ul>
-  <li>Differences in xG%</li>
-  <li>Changes in goals for and against</li>
-  <li>Win percentages in the first vs second leg of back‑to‑backs</li>
-</ul>
-
-<p>
-This visualization highlights how fatigue manifests in tightly scheduled games.
-</p>
+<h2>4.4 Goalie Fatigue Explorer</h2>
+  
+<p>This page explores a goalie or compares two goalies over the course of a season. It segments the data into different quarters of the season.</p>
 
 <h2>4.5 Rest Impact Page</h2>
 
-<p>The Rest Impact page brings together many of the package’s rest‑related features. It typically includes:</p>
-
-<ul>
-  <li>A bar chart of average xG% per rest bucket (0, 1, 2, 3+ days) for a chosen team and season</li>
-  <li>A league‑wide table showing fatigue sensitivity scores</li>
-  <li>Options to filter by team and season</li>
-</ul>
-
-<p>
-This page is the most direct answer to the core question:
-<strong>“How much does rest matter, and for whom?”</strong>
-</p>
+<p>The Rest Impact page brings together many of the package’s rest‑related features. This page is the most direct answer to the core question:
+<strong>“How much does rest matter, and for whom?”</strong></p>
 
 <h1>5. Analysis &amp; Insights</h1>
 
@@ -384,7 +334,7 @@ This page is the most direct answer to the core question:
 <p>Across all teams and seasons in our dataset, we observe clear patterns:</p>
 
 <ul>
-  <li>Teams tend to perform <strong>4–6 percentage points worse in xG% on 0 rest</strong> compared to multi‑day rest.</li>
+  <li>Teams tend to perform worse when compared to multi‑day rest.</li>
   <li>The best average xG% is typically seen in the <strong>3+ day rest</strong> bucket.</li>
   <li>One or two days of rest reduce the fatigue penalty but do not entirely eliminate it.</li>
 </ul>
@@ -423,7 +373,6 @@ Teams like Vegas illustrate that rest effects are not uniform and may be shaped 
 <ul>
   <li>Many goalies show lower save percentages and worse high‑danger save numbers on short rest.</li>
   <li>Some elite goalies maintain strong performance even with compressed schedules.</li>
-  <li>Rebound control often improves with additional rest, which may indicate sharper tracking and positioning when players are less fatigued.</li>
 </ul>
 
 <h2>5.4 Limitations</h2>
@@ -477,22 +426,9 @@ understanding of sports performance and scheduling effects.
 
 <ul>
   <li>MoneyPuck.com — NHL shot and expected‑goals data</li>
-  <li>NHL.com — Official schedules and team information</li>
   <li>Streamlit documentation — Application framework reference</li>
-  <li>Python Packaging Authority (PyPA) — Packaging best practices</li>
 </ul>
 
-<h1>8. Appendix</h1>
-
-<p>Additional materials that can be included as needed:</p>
-
-<ul>
-  <li>Extra visualizations (e.g., more team case studies)</li>
-  <li>Architecture diagrams for the package and app</li>
-  <li>Example raw game logs</li>
-  <li>Detailed unit test descriptions</li>
-  <li>Extended statistical modeling outputs</li>
-</ul>
 
 </body>
 </html>
